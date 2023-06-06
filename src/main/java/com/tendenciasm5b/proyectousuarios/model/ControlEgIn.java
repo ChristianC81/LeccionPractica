@@ -45,4 +45,5 @@ public class ControlEgIn {
     @JsonIgnore
     @OneToMany(mappedBy = "venta")
     private List<Venta> listaVentas;
+    
 }

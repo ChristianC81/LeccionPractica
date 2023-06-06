@@ -51,4 +51,5 @@ public class Venta {
     @ManyToOne
     @JoinColumn(name = "id_control", referencedColumnName = "id_control")
     private ControlEgIn venta;
+    
 }

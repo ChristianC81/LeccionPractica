@@ -53,7 +53,7 @@ public class VentaController {
                 venta.setCantidad(u.getCantidad());       
                 venta.setPrecio(u.getPrecio());       
                 venta.setFechadeventa(u.getFechadeventa());       
-                venta.setControl(u.getControl());
+                venta.setVenta(u.getVenta());
                 
                 return new ResponseEntity<>(ventaService.save(venta), HttpStatus.CREATED);
             } catch (Exception e) {
