@@ -4,8 +4,9 @@
  */
 package com.tendenciasm5b.proyectousuarios.controller;
 
-import com.tendenciasm5b.proyectousuarios.model.Usuario;
-import com.tendenciasm5b.proyectousuarios.service.UsuarioServiceImpl;
+
+import com.tendenciasm5b.proyectousuarios.model.Rol;
+import com.tendenciasm5b.proyectousuarios.service.RolServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,34 +25,33 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chris
  */
 @RestController
-@RequestMapping("/usuario")
-public class UsuarioController {
+@RequestMapping("/rol")
+public class RolController {
 
     @Autowired
-    UsuarioServiceImpl usuarioService;
+    RolServiceImpl rolService;
 
-    @Operation(summary = "Se obtiene la lista de Usuarios")
+    @Operation(summary = "Se obtiene la lista de Roles")
     @GetMapping("/listar")
-    public ResponseEntity<List<Usuario>> listaUsuarios() {
-        return new ResponseEntity<>(usuarioService.findByAll(), HttpStatus.OK);
+    public ResponseEntity<List<Rol>> listaRols() {
+        return new ResponseEntity<>(rolService.findByAll(), HttpStatus.OK);
     }
 
-    @Operation(summary = "Debe enviar los campos del Usuario")
+    @Operation(summary = "Debe enviar los campos del Rol")
     @PostMapping("/crear")
-    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario u) {
-        return new ResponseEntity<>(usuarioService.save(u), HttpStatus.CREATED);
+    public ResponseEntity<Rol> crearRol(@RequestBody Rol u) {
+        return new ResponseEntity<>(rolService.save(u), HttpStatus.CREATED);
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Integer id, @RequestBody Usuario u) {
-        Usuario usuario = usuarioService.findById(id);
-        if (usuario != null) {
+    public ResponseEntity<Rol> actualizarRol(@PathVariable Integer id, @RequestBody Rol u) {
+        Rol rol = rolService.findById(id);
+        if (rol != null) {
             try {
-                usuario.setEmail(u.getEmail());
-                usuario.setClave(u.getClave());
-                usuario.setPersona(u.getPersona());
+                rol.setNombre(u.getNombre());
+                rol.setDetalle(u.getDetalle());
                 
-                return new ResponseEntity<>(usuarioService.save(usuario), HttpStatus.CREATED);
+                return new ResponseEntity<>(rolService.save(rol), HttpStatus.CREATED);
             } catch (Exception e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -61,8 +61,8 @@ public class UsuarioController {
         }
     }
 
-    public ResponseEntity<Usuario> elimiarUsuario(@PathVariable Integer id) {
-        usuarioService.delete(id);
+    public ResponseEntity<Rol> elimiarRol(@PathVariable Integer id) {
+        rolService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

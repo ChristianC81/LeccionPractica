@@ -4,6 +4,7 @@
  */
 package com.tendenciasm5b.proyectousuarios.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,8 +12,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import java.sql.Date;
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -21,27 +24,31 @@ import lombok.Data;
  */
 @Data
 @Entity
-public class Usuario {
+public class Venta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_usuario")
-    private int id_usuario;
-    
-    @Email(message = "Debe ingresar una dirección de correo válida")
-    @Column(name = "email")
-    private String email;
-    
-    @NotBlank(message = "La clave no puede estar en blanco")
-    @Column(name = "clave")
-    private String clave;
+    @Column(name = "id_venta")
+    private int id_venta;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")
     private Persona persona;
 
-    @ManyToOne
-    @JoinColumn(name = "id_rol", referencedColumnName = "id_rol")
-    private Rol rol;
+    @OneToOne
+    @JoinColumn(name = "id_producto", referencedColumnName = "id_producto")
+    private Producto producto;
 
+    @Column(name = "cantidad")
+    private int cantidad;
+
+    @Column(name = "precio")
+    private double precio;
+
+    @Column(name = "fechadeventa")
+    private Date fechadeventa;
+
+    @ManyToOne
+    @JoinColumn(name = "id_control", referencedColumnName = "id_control")
+    private ControlEgIn venta;
 }

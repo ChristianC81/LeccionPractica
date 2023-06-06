@@ -4,8 +4,8 @@
  */
 package com.tendenciasm5b.proyectousuarios.controller;
 
-import com.tendenciasm5b.proyectousuarios.model.Usuario;
-import com.tendenciasm5b.proyectousuarios.service.UsuarioServiceImpl;
+import com.tendenciasm5b.proyectousuarios.model.Venta;
+import com.tendenciasm5b.proyectousuarios.service.VentaServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,45 +24,49 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chris
  */
 @RestController
-@RequestMapping("/usuario")
-public class UsuarioController {
+@RequestMapping("/venta")
+public class VentaController {
 
     @Autowired
-    UsuarioServiceImpl usuarioService;
+    VentaServiceImpl ventaService;
 
-    @Operation(summary = "Se obtiene la lista de Usuarios")
+    @Operation(summary = "Se obtiene la lista de Ventas")
     @GetMapping("/listar")
-    public ResponseEntity<List<Usuario>> listaUsuarios() {
-        return new ResponseEntity<>(usuarioService.findByAll(), HttpStatus.OK);
+    public ResponseEntity<List<Venta>> listaVentas() {
+        return new ResponseEntity<>(ventaService.findByAll(), HttpStatus.OK);
     }
 
-    @Operation(summary = "Debe enviar los campos del Usuario")
+    @Operation(summary = "Debe enviar los campos del Venta")
     @PostMapping("/crear")
-    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario u) {
-        return new ResponseEntity<>(usuarioService.save(u), HttpStatus.CREATED);
+    public ResponseEntity<Venta> crearVenta(@RequestBody Venta u) {
+        return new ResponseEntity<>(ventaService.save(u), HttpStatus.CREATED);
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Integer id, @RequestBody Usuario u) {
-        Usuario usuario = usuarioService.findById(id);
-        if (usuario != null) {
+    public ResponseEntity<Venta> actualizarVenta(@PathVariable Integer id, @RequestBody Venta u) {
+        Venta venta = ventaService.findById(id);
+        if (venta != null) {
             try {
-                usuario.setEmail(u.getEmail());
-                usuario.setClave(u.getClave());
-                usuario.setPersona(u.getPersona());
                 
-                return new ResponseEntity<>(usuarioService.save(usuario), HttpStatus.CREATED);
+                venta.setPersona(u.getPersona());
+                venta.setProducto(u.getProducto());
+                venta.setCantidad(u.getCantidad());       
+                venta.setPrecio(u.getPrecio());       
+                venta.setFechadeventa(u.getFechadeventa());       
+                venta.setControl(u.getControl());
+                
+                return new ResponseEntity<>(ventaService.save(venta), HttpStatus.CREATED);
             } catch (Exception e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        } 
     }
 
-    public ResponseEntity<Usuario> elimiarUsuario(@PathVariable Integer id) {
-        usuarioService.delete(id);
+    public ResponseEntity<Venta> elimiarVenta(@PathVariable Integer id) {
+        ventaService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

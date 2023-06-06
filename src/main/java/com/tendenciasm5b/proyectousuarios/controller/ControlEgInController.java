@@ -4,8 +4,8 @@
  */
 package com.tendenciasm5b.proyectousuarios.controller;
 
-import com.tendenciasm5b.proyectousuarios.model.Usuario;
-import com.tendenciasm5b.proyectousuarios.service.UsuarioServiceImpl;
+import com.tendenciasm5b.proyectousuarios.model.ControlEgIn;
+import com.tendenciasm5b.proyectousuarios.service.ControlEgInServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,45 +24,46 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chris
  */
 @RestController
-@RequestMapping("/usuario")
-public class UsuarioController {
+@RequestMapping("/controlEgIn")
+public class ControlEgInController {
 
     @Autowired
-    UsuarioServiceImpl usuarioService;
+    ControlEgInServiceImpl controlEgInService;
 
-    @Operation(summary = "Se obtiene la lista de Usuarios")
+    @Operation(summary = "Se obtiene la lista de ControlEgIns")
     @GetMapping("/listar")
-    public ResponseEntity<List<Usuario>> listaUsuarios() {
-        return new ResponseEntity<>(usuarioService.findByAll(), HttpStatus.OK);
+    public ResponseEntity<List<ControlEgIn>> listaControlEgIns() {
+        return new ResponseEntity<>(controlEgInService.findByAll(), HttpStatus.OK);
     }
 
-    @Operation(summary = "Debe enviar los campos del Usuario")
+    @Operation(summary = "Debe enviar los campos del ControlEgIn")
     @PostMapping("/crear")
-    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario u) {
-        return new ResponseEntity<>(usuarioService.save(u), HttpStatus.CREATED);
+    public ResponseEntity<ControlEgIn> crearControlEgIn(@RequestBody ControlEgIn u) {
+        return new ResponseEntity<>(controlEgInService.save(u), HttpStatus.CREATED);
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Integer id, @RequestBody Usuario u) {
-        Usuario usuario = usuarioService.findById(id);
-        if (usuario != null) {
+    public ResponseEntity<ControlEgIn> actualizarControlEgIn(@PathVariable Integer id, @RequestBody ControlEgIn u) {
+        ControlEgIn controlEgIn = controlEgInService.findById(id);
+        if (controlEgIn != null) {
             try {
-                usuario.setEmail(u.getEmail());
-                usuario.setClave(u.getClave());
-                usuario.setPersona(u.getPersona());
                 
-                return new ResponseEntity<>(usuarioService.save(usuario), HttpStatus.CREATED);
+                controlEgIn.setEgresos(u.getEgresos());
+                controlEgIn.setDescripciongasto(u.getDescripciongasto());       
+                
+                
+                return new ResponseEntity<>(controlEgInService.save(controlEgIn), HttpStatus.CREATED);
             } catch (Exception e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        } 
     }
 
-    public ResponseEntity<Usuario> elimiarUsuario(@PathVariable Integer id) {
-        usuarioService.delete(id);
+    public ResponseEntity<ControlEgIn> elimiarControlEgIn(@PathVariable Integer id) {
+        controlEgInService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

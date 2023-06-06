@@ -4,8 +4,8 @@
  */
 package com.tendenciasm5b.proyectousuarios.controller;
 
-import com.tendenciasm5b.proyectousuarios.model.Usuario;
-import com.tendenciasm5b.proyectousuarios.service.UsuarioServiceImpl;
+import com.tendenciasm5b.proyectousuarios.model.Inventario;
+import com.tendenciasm5b.proyectousuarios.service.InventarioServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,34 +24,34 @@ import org.springframework.web.bind.annotation.RestController;
  * @author chris
  */
 @RestController
-@RequestMapping("/usuario")
-public class UsuarioController {
+@RequestMapping("/inventario")
+public class InventarioController {
 
     @Autowired
-    UsuarioServiceImpl usuarioService;
+    InventarioServiceImpl inventarioService;
 
-    @Operation(summary = "Se obtiene la lista de Usuarios")
+    @Operation(summary = "Se obtiene la lista de Inventarios")
     @GetMapping("/listar")
-    public ResponseEntity<List<Usuario>> listaUsuarios() {
-        return new ResponseEntity<>(usuarioService.findByAll(), HttpStatus.OK);
+    public ResponseEntity<List<Inventario>> listaInventarios() {
+        return new ResponseEntity<>(inventarioService.findByAll(), HttpStatus.OK);
     }
 
-    @Operation(summary = "Debe enviar los campos del Usuario")
+    @Operation(summary = "Debe enviar los campos del Inventario")
     @PostMapping("/crear")
-    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario u) {
-        return new ResponseEntity<>(usuarioService.save(u), HttpStatus.CREATED);
+    public ResponseEntity<Inventario> crearInventario(@RequestBody Inventario u) {
+        return new ResponseEntity<>(inventarioService.save(u), HttpStatus.CREATED);
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<Usuario> actualizarUsuario(@PathVariable Integer id, @RequestBody Usuario u) {
-        Usuario usuario = usuarioService.findById(id);
-        if (usuario != null) {
+    public ResponseEntity<Inventario> actualizarInventario(@PathVariable Integer id, @RequestBody Inventario u) {
+        Inventario inventario = inventarioService.findById(id);
+        if (inventario != null) {
             try {
-                usuario.setEmail(u.getEmail());
-                usuario.setClave(u.getClave());
-                usuario.setPersona(u.getPersona());
-                
-                return new ResponseEntity<>(usuarioService.save(usuario), HttpStatus.CREATED);
+
+                inventario.setNombre(u.getNombre());
+                inventario.setCantidad(u.getCantidad());
+
+                return new ResponseEntity<>(inventarioService.save(inventario), HttpStatus.CREATED);
             } catch (Exception e) {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
@@ -61,8 +61,8 @@ public class UsuarioController {
         }
     }
 
-    public ResponseEntity<Usuario> elimiarUsuario(@PathVariable Integer id) {
-        usuarioService.delete(id);
+    public ResponseEntity<Inventario> elimiarInventario(@PathVariable Integer id) {
+        inventarioService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

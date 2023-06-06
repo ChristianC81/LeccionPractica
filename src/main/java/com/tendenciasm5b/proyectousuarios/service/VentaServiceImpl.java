@@ -4,8 +4,8 @@
  */
 package com.tendenciasm5b.proyectousuarios.service;
 
-import com.tendenciasm5b.proyectousuarios.model.Usuario;
-import com.tendenciasm5b.proyectousuarios.repository.UsuarioRepository;
+import com.tendenciasm5b.proyectousuarios.model.Venta;
+import com.tendenciasm5b.proyectousuarios.repository.VentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
@@ -15,14 +15,14 @@ import org.springframework.stereotype.Service;
  * @author chris
  */
 @Service
-public class UsuarioServiceImpl extends GenericServiceImpl<Usuario, Integer> implements GenericService<Usuario, Integer> {
+public class VentaServiceImpl extends GenericServiceImpl<Venta, Integer> implements GenericService<Venta, Integer> {
 
     @Autowired
-    UsuarioRepository usuarioRepository;
+    VentaRepository ventaRepository;
 
     @Override
-    public CrudRepository<Usuario, Integer> getDao() {
-        return usuarioRepository;
+    public CrudRepository<Venta, Integer> getDao() {
+        return ventaRepository;
     }
 
 
