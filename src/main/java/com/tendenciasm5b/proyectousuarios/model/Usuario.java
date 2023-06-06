@@ -24,8 +24,6 @@ import lombok.Data;
 @Entity
 public class Usuario {
 
-    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
@@ -38,7 +36,7 @@ public class Usuario {
     @NotBlank(message = "La clave no puede estar en blanco")
     @Column(name = "clave")
     private String clave;
-    String hashedPassword = passwordEncoder.encode(this.clave);
+   
     @ManyToOne
     @JoinColumn(name = "id_persona", referencedColumnName = "id_persona")
     private Persona persona;
